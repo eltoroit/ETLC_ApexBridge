@@ -1,0 +1,7 @@
+<aura:component controller="ETLC_ApexBridge_Controller" >
+    <aura:attribute name="debugClient" type="Boolean" default="false" />
+    <aura:attribute name="debugServer" type="Boolean" default="false" />
+    
+    <aura:method name="callApex" action="{!c.callApex}" access="public" />
+    {!v.body}
+</aura:component>

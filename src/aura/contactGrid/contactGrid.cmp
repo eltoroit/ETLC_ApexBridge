@@ -1,0 +1,29 @@
+<aura:component >
+    <c:ETLC_ApexBridge aura:id="ApexBridge" />
+    
+    <aura:handler name="change" value="{!v.accountId}"
+                  action="{!c.changeAccountId}" />
+    <aura:handler name="contactChanged" event="c:ContactChanged"
+                  action="{!c.contactChanged}"/>
+    
+    <aura:attribute name="accountId" type="Id" />
+    <aura:attribute name="contacts" type="List" />
+    <aura:attribute name="contactsChanged" type="Object" />
+    
+    <aura:if isTrue="{!v.accountId != null}" >
+        <ui:button label="Save Contact(s)" aura:id="btnSaveContacts"
+                   press="{!c.saveContacts}" disabled="true" />
+        <table border="1" class="border" style="width:100%">
+        	<tr>
+            	<th class="header border">Id</th>
+            	<th class="header border">First Name</th>
+            	<th class="header border">Last Name</th>
+                <th class="header border">Last Modified Date</th>
+                <th class="header border">Changed</th>
+            </tr>
+            <aura:iteration items="{!v.contacts}" var="contact">
+                <c:contactRow contact="{!contact}" />
+            </aura:iteration>
+        </table>
+    </aura:if>
+</aura:component>

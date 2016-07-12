@@ -1,0 +1,4 @@
+<aura:event type="component" description="Fired when contact changes">
+    <aura:attribute name="contact" type="Contact" />
+    <aura:attribute name="changed" type="Boolean" />
+</aura:event>

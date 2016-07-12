@@ -1,0 +1,45 @@
+<aura:component >
+    <aura:handler event="aura:waiting" action="{!c.showPleaseWait}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hidePleaseWait}"/>
+    <aura:handler event="aura:systemError" action="{!c.onSystemError}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="errorList" type="List" default="[]" />
+    <aura:attribute name="errorMessage" type="String" default="Please wait while we load the information for your request..." />
+    <aura:attribute name="sldsRoot" type="String" required="true" />
+    
+    <div class="ETLC">
+        <div aura:id="modalWindow" class="slds-hide">
+            <div class="slds-modal slds-modal--prompt slds-fade-in-open">
+                <div class="slds-modal__container slds-modal--prompt" tabindex="0">
+                    <div class="slds-modal__header slds-theme--info slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--medium">
+                            Please Wait...
+                        </h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium" style="position: relative;">
+                        <div >
+                            <table style="width:100%; border: black 0px solid; border-spacing: 10px; border-collapse: separate;">
+                                <tr>
+                                    <td style="width:75px; border: black 0px solid; vertical-align: middle;">
+                                        <img src="{!v.sldsRoot + '/assets/images/spinners/slds_spinner_brand.gif'}"
+                                             style="width:75px;"/>
+                                    </td>
+                                    <td style="border: black 0px solid; vertical-align: middle;">
+                                        <h2 class="slds-text-heading--small">
+                                            <p>{!v.errorMessage}</p>
+                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span class="slds-text-body--small" style="position: absolute; bottom: 10px; right: 10px;" onclick="{!c.hidePleaseWait}">
+                                Close it!
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+    </div>
+</aura:component>

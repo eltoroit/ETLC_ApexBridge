@@ -1,0 +1,12 @@
+.THIS .header {
+    text-align: center;
+    background-color: #C0C0C0;
+}
+
+.THIS .border {
+    border: black solid 1px;
+}
+
+.THIS .fullWidth {
+    width: 95%;
+}
