@@ -4,8 +4,8 @@
     <aura:handler event="aura:systemError" action="{!c.onSystemError}"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
-    <aura:attribute name="errorList" type="List" default="[]" />
-    <aura:attribute name="errorMessage" type="String" default="Please wait while we load the information for your request..." />
+    <aura:attribute name="messages" type="List" default="[]" access="private" />
+    <aura:attribute name="message" type="String" default="Please wait while we load the information for your request..." access="private" />
     <aura:attribute name="sldsRoot" type="String" required="true" />
     
     <div class="ETLC">
