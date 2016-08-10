@@ -6,6 +6,7 @@ Repository: https://github.com/eltoroit/ETLC_SecureDB
 */
 public with sharing class ETLC_SecuredDB {
 	public enum Operation {Querying, Inserting, Updating, Deleting, Upserting}
+	public static Boolean debug = false;
 
 	public static List<sObject> query(String SOQL) {
 		// First query... 
@@ -29,6 +30,9 @@ public with sharing class ETLC_SecuredDB {
         validate(Operation.Querying, findFields(dbRecords));
     }
     public static void performDML(Operation op, sObject dbRecord) {
+		if(op == Operation.upserting){
+			throw new ETLC_Exception('Use another version of performDML when using Upsert');
+		}
         List<sObject> dbRecords = new List<sObject>();
         dbRecords.add(dbRecord);
         performDML(op, dbRecords);
@@ -57,7 +61,7 @@ public with sharing class ETLC_SecuredDB {
 		Map<String, Schema.SObjectType> mapObjects = Schema.getGlobalDescribe(); 
 		for (String sObjectName : mapFieldNames.keySet()) {
             securityMessage = 'CRUD on [' + sObjectName + '] for [' + op + ']';
-			System.debug('Checking: ' + securityMessage);
+			if(debug){System.debug('Checking: ' + securityMessage);}
 			Schema.DescribeSObjectResult drSObj = mapObjects.get(sObjectName).getDescribe();
 			if (op == Operation.Inserting) {
 				if (!drSObj.isCreateable()) throwSecurityException(securityMessage);
@@ -81,7 +85,7 @@ public with sharing class ETLC_SecuredDB {
 					Schema.DescribeFieldResult drField = mapFields.get(fieldName).getDescribe();
 					if (drField.isPermissionable()) {
                         securityMessage = 'FLS on [' + sObjectName + '.' + fieldName + '] for [' + op + ']';
-						System.debug('Checking: ' + securityMessage);
+						if(debug){System.debug('Checking: ' + securityMessage);}
 						if (op == Operation.Inserting) {
 							if (!drField.isCreateable()) throwSecurityException(securityMessage);
 						} else if (op == Operation.Querying) {
@@ -97,7 +101,7 @@ public with sharing class ETLC_SecuredDB {
 							throw new ETLC_Exception('What operation were you performing?');
 						}
 					} else {
-						System.debug('Bypass Check: FLS on [' + sObjectName + '.' + fieldName + '] for [' + op + '] since it\'s not isPermissionable()');   
+						if(debug){System.debug('Bypass Check: FLS on [' + sObjectName + '.' + fieldName + '] for [' + op + '] since it\'s not isPermissionable()');}
 					}                    
 				}
 			}
@@ -110,14 +114,16 @@ public with sharing class ETLC_SecuredDB {
 		Map<String, Set<String>> mapFields;
 	
 		strJSON = JSON.serialize(dbRecords);
-		System.debug('JSON:' + strJSON);
+		if(debug){System.debug('JSON:' + strJSON);}
 		mapFields = new Map<String, Set<String>>();
 		List<Object> records = (List<Object>) JSON.deserializeUntyped(strJSON);
 		for (Object record : records) {
 			findFieldsRecursive(mapFields, (Map<String, Object>) record);
 		}
-		for (String objectName : mapFields.keySet()) {
-			System.debug(objectName + ': ' + mapFields.get(objectName));            
+		if(debug) {
+			for (String objectName : mapFields.keySet()) {
+				System.debug(objectName + ': ' + mapFields.get(objectName));
+			}
 		}
 		return mapFields;
 	}
