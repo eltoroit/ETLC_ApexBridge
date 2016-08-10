@@ -101,7 +101,7 @@ public with sharing class ETLC_SecuredDB {
 							throw new ETLC_Exception('What operation were you performing?');
 						}
 					} else {
-						System.debug('Bypass Check: FLS on [' + sObjectName + '.' + fieldName + '] for [' + op + '] since it\'s not isPermissionable()');   
+						if(debug){System.debug('Bypass Check: FLS on [' + sObjectName + '.' + fieldName + '] for [' + op + '] since it\'s not isPermissionable()');}
 					}                    
 				}
 			}
