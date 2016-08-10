@@ -6,7 +6,7 @@ Repository: https://github.com/eltoroit/ETLC_SecureDB
 */
 public with sharing class ETLC_SecuredDB {
 	public enum Operation {Querying, Inserting, Updating, Deleting, Upserting}
-	public Boolean debug = false;
+	public static Boolean debug = false;
 
 	public static List<sObject> query(String SOQL) {
 		// First query... 
@@ -61,7 +61,7 @@ public with sharing class ETLC_SecuredDB {
 		Map<String, Schema.SObjectType> mapObjects = Schema.getGlobalDescribe(); 
 		for (String sObjectName : mapFieldNames.keySet()) {
             securityMessage = 'CRUD on [' + sObjectName + '] for [' + op + ']';
-			if(debug){System.debug('Checking: ' + securityMessage)};
+			if(debug){System.debug('Checking: ' + securityMessage);}
 			Schema.DescribeSObjectResult drSObj = mapObjects.get(sObjectName).getDescribe();
 			if (op == Operation.Inserting) {
 				if (!drSObj.isCreateable()) throwSecurityException(securityMessage);
