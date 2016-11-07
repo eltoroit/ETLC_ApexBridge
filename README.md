@@ -16,7 +16,7 @@ Lightning Components is a pretty cool technology that allows you to write SPA ar
 
 #### Additional Notes:
 
-The documentation can be found here: [http://eltoro.it](http://eltoro.it)
+The documentation can be found here: [http://eltoro.it/Blog.app?page=ETLC_ApexBridge](http://eltoro.it/Blog.app?page=ETLC_ApexBridge)
 
 ## Contributing
 

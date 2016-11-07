@@ -1,4 +1,15 @@
-@isTest
+/*
+Code developed by: http://eltoro.it - May 1, 2016
+Twitter: https://twitter.com/ElToroIT
+LinkedIn: https://www.linkedin.com/in/eltoroit
+Repository: https://github.com/eltoroit/ETLC_SecureDB
+
+This test uses these standard fields
+- Account (Id, Name, Website)
+- Contact (Id, Name, LastName, AssistantName, AccountId)
+- Task (Id, Subject, Description, ActivityDate, Priority, Status, WhatId, WhoId, AccountId)
+*/
+@isTest(SeeAllData=false)
 private class ETLC_SecuredDB_Test {
     @TestSetup
     private static void BuildObjects() {
@@ -109,9 +120,118 @@ private class ETLC_SecuredDB_Test {
         SOQL += 'FROM Contact ';
         SOQL += 'WHERE ID in (SELECT ContactID FROM Case) ';
         SOQL += 'LIMIT 5';
+        
         ETLC_SecuredDB.query(SOQL);
     }
     
+    @isTest
+    private static void Performace_JSON() {
+        System.debug('QueryAll:');
+        String SOQL = '';
+        SOQL += 'SELECT Id, Name, LastName, AssistantName, AccountId, ';
+        SOQL += 'Account.Id, Account.Name, Account.Website, ';
+        SOQL += '(SELECT Id, Subject, Description, ActivityDate, Priority, Status, WhatId, WhoId, AccountId, Account.Name, Account.Owner.UserName FROM tasks) ';
+        SOQL += 'FROM Contact ';
+        
+        ETLC_SecuredDB.showDebugMessages = true;
+        ETLC_SecuredDB.findFieldsUsingJSON = true;
+        System.debug(LoggingLevel.ERROR, 'START: find Field using JSON');
+        ETLC_SecuredDB.query(SOQL);
+        System.debug(LoggingLevel.ERROR, 'END: find Field using JSON');
+    }
+    
+        @isTest
+    private static void Performace_NOJSON() {
+        System.debug('QueryAll:');
+        String SOQL = '';
+        SOQL += 'SELECT Id, Name, LastName, AssistantName, AccountId, ';
+        SOQL += 'Account.Id, Account.Name, Account.Website, ';
+        SOQL += '(SELECT Id, Subject, Description, ActivityDate, Priority, Status, WhatId, WhoId, AccountId, Account.Name, Account.Owner.UserName FROM tasks) ';
+        SOQL += 'FROM Contact ';
+        
+        ETLC_SecuredDB.showDebugMessages = true;
+        ETLC_SecuredDB.findFieldsUsingJSON = false;
+        System.debug(LoggingLevel.ERROR, 'START: find Field using NO JSON');
+        ETLC_SecuredDB.query(SOQL);
+        System.debug(LoggingLevel.ERROR, 'END: find Field using NO JSON');
+    }
+    @isTest
+    private static void plainValidator01() {
+        List<Contact> contacts = [SELECT Id, Name, LastName, AssistantName, AccountId, 
+                                  Account.Id, Account.Name, Account.Website, 
+                                  (SELECT Id, Subject, Description, ActivityDate, Priority, Status,
+                                   WhatId, WhoId, AccountId, Account.Name, Account.Owner.UserName FROM tasks)
+                                  FROM Contact];
+        // Just first contact
+        String fields = ETLC_SecuredDB.getFieldsForPlainValidator(contacts[0]);
+        ETLC_SecuredDB.plainValidator(ETLC_SecuredDB.Operation.Updating, fields);
+    }
+
+    @isTest
+    private static void plainValidator02() {
+        List<Contact> contacts = [SELECT Id, Name, LastName, AssistantName, AccountId, 
+                                  Account.Id, Account.Name, Account.Website, 
+                                  (SELECT Id, Subject, Description, ActivityDate, Priority, Status,
+                                   WhatId, WhoId, AccountId, Account.Name, Account.Owner.UserName FROM tasks)
+                                  FROM Contact];
+
+        // All contacts
+        String fields = ETLC_SecuredDB.getFieldsForPlainValidator(contacts);
+        ETLC_SecuredDB.plainValidator(ETLC_SecuredDB.Operation.Updating, fields);
+    }
+
+    @isTest
+    private static void plainValidator03_GoodFields() {
+        Set<String> fields = new Set<String>{'ID', 'Name', 'LastName', 'AssistantName', 'AccountId'};
+        ETLC_SecuredDB.plainValidator(ETLC_SecuredDB.Operation.Updating, 'Contact', fields);
+    }
+
+    @isTest
+    private static void plainValidator03_BadObject01() {
+        try {
+            Set<String> fields;
+            fields = new Set<String>{'ID', 'Name'};
+            ETLC_SecuredDB.plainValidator(ETLC_SecuredDB.Operation.Updating, 'NoObject', fields);
+            System.assert(false, 'Exception was not thrown');
+        } catch (ETLC_Exception ex1) {
+            String expectedMsg = 'Invalid Object name [NoObject]';
+            System.assertEquals(expectedMsg, ex1.getMessage(), 'Not the expected exception message');
+            // Good!
+        } catch (Exception ex2) {
+            System.assert(false, 'Exception thrown but not the expected one');
+        }
+    }
+
+    @isTest
+    private static void plainValidator03_BadFields01() {
+        try {
+	        Set<String> fields = new Set<String>{'ID', 'Name', 'Account.Id'};
+    	    ETLC_SecuredDB.plainValidator(ETLC_SecuredDB.Operation.Updating, 'Contact', fields);
+            System.assert(false, 'Exception was not thrown');
+        } catch (ETLC_Exception ex1) {
+            String expectedMsg = 'Invalid field name [Account.Id]';
+            System.assertEquals(expectedMsg, ex1.getMessage(), 'Not the expected exception message');
+            // Good!
+        } catch (Exception ex2) {
+            System.assert(false, 'Exception thrown but not the expected one');
+        }
+    }
+    
+    @isTest
+    private static void plainValidator03_BadFields02() {
+        try {
+	        Set<String> fields = new Set<String>{'ID', 'Name', 'NoField'};
+        ETLC_SecuredDB.plainValidator(ETLC_SecuredDB.Operation.Updating, 'Contact', fields);
+            System.assert(false, 'Exception was not thrown');
+        } catch (ETLC_Exception ex1) {
+            String expectedMsg = 'Invalid field name [NoField]';
+            System.assertEquals(expectedMsg, ex1.getMessage(), 'Not the expected exception message');
+            // Good!
+        } catch (Exception ex2) {
+            System.assert(false, 'Exception thrown but not the expected one');
+        }
+    }
+
     @isTest
     private static void PerformMultipleDML() {
         System.debug('Multiple DML operations:');
