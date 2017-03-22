@@ -140,7 +140,7 @@ private class ETLC_SecuredDB_Test {
         System.debug(LoggingLevel.ERROR, 'END: find Field using JSON');
     }
     
-        @isTest
+    @isTest
     private static void Performace_NOJSON() {
         System.debug('QueryAll:');
         String SOQL = '';
@@ -155,6 +155,7 @@ private class ETLC_SecuredDB_Test {
         ETLC_SecuredDB.query(SOQL);
         System.debug(LoggingLevel.ERROR, 'END: find Field using NO JSON');
     }
+
     @isTest
     private static void plainValidator01() {
         List<Contact> contacts = [SELECT Id, Name, LastName, AssistantName, AccountId, 
@@ -241,6 +242,7 @@ private class ETLC_SecuredDB_Test {
         for (Integer i = 0; i < 10; i++) {
             Tasks.add(newTask(c.AccountID, c.ID, i));
         }
+        ETLC_SecuredDB.showDebugMessages = true;
         ETLC_SecuredDB.performDML(ETLC_SecuredDB.Operation.Inserting, Tasks);
         ETLC_SecuredDB.performDML(ETLC_SecuredDB.Operation.Updating, Tasks);
         ETLC_SecuredDB.performDML(ETLC_SecuredDB.Operation.Updating, Tasks[0]);
@@ -307,6 +309,23 @@ private class ETLC_SecuredDB_Test {
     }
     
     @isTest
+    private static void InvalidDML3() {
+        try {
+            System.debug('InvalidDML3:');
+            Task t = [SELECT Id, Subject, Description, ActivityDate, Priority, Status,
+                      WhatId, WhoId, AccountId, Account.Name, Account.Owner.UserName
+                      FROM Task LIMIT 1];
+            ETLC_SecuredDB.performDML(ETLC_SecuredDB.Operation.Upserting, t);
+            System.assert(false, 'Exception was not thrown');
+        } catch (ETLC_Exception ex1) {
+            String expectedMsg = 'When upserting records, you must pass a list of records';
+            System.assertEquals(expectedMsg, ex1.getMessage(), 'Not the expected exception message');
+        } catch (Exception ex2) {
+            System.assert(false, 'Exception thrown but not the expected one');
+        } 
+    }
+    
+    @isTest
     private static void InvalidSOQL() {
         try {
             System.debug('InvalidSOQL:');
@@ -319,15 +338,17 @@ private class ETLC_SecuredDB_Test {
         }
     }
     
-    /*
+/* */
+	// NOTE: Failing security in a test is complex, it requires to set the right user
+	// with the right permissions. Please fix this code to reflect that.
     @isTest
     private static void QueryFailSecurity_1() {
         System.debug('QueryFailSecurity_1: Fails security');
         
         // Find a user
-        // TODO: Change this criteria to find a user without FLS access on a task field (description)
+        // TODO: Change this criteria to find a user without FLS access on a task field (comments - description)
         try {
-            String userCriteria = 'WHERE CommunityNickname = \'ElToro\'';
+            String userCriteria = 'WHERE CommunityNickname = \'ELTOROIT\'';
             User u = Database.query('SELECT ID, FirstName, LastName, email FROM User ' + userCriteria + ' LIMIT 1');
             
             // Build SOQL
@@ -353,7 +374,7 @@ private class ETLC_SecuredDB_Test {
                     System.assert(false, 'Should have failed with Security exception');
                 } catch (ETLC_Exception ex1) {
                     // TODO: If you are checking other field, change the message
-                    String expectedMsg = 'FLS on [Task.Description] for [Reading]';
+                    String expectedMsg = 'FLS on [Task.Description] for [Querying]';
                     System.assertEquals(expectedMsg, ex1.getMessage(), 'Not the expected exception message');
                 } catch (Exception ex2) {
                     System.assert(false, 'Exception thrown but not the expected one');
@@ -363,7 +384,7 @@ private class ETLC_SecuredDB_Test {
             System.debug(ex);
         }
     }
-    */
+/* */
     
     // Create records
     private static Account newAccount(Integer counter) {

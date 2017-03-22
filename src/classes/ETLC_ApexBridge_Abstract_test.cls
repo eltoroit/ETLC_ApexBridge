@@ -1,8 +1,8 @@
 @isTest
 public class ETLC_ApexBridge_Abstract_test {
-	@isTest
+    @isTest
     public static void testNonAbstractMethods() {
-        AbstractBasicImplementation abs = new AbstractBasicImplementation();
+        ETLC_ApexBridge_TestHelper abs = new ETLC_ApexBridge_TestHelper();
         
         Date dt = Date.today();
         Date dt2 = abs.dateFromJSON(abs.dateToJSON(dt));
@@ -10,12 +10,6 @@ public class ETLC_ApexBridge_Abstract_test {
         
         DateTime dttm = DateTime.now();
         DateTime dttm2 = abs.dateTimeFromJSON(abs.dateTimeToJSON(dttm));
-        
-            }
-
-    public class AbstractBasicImplementation extends ETLC_ApexBridge_Abstract {
-        public override void process(ETLC_ApexBridge_Data data) {
-            // Nothing
-        }
-    }
+        System.assertEquals(dttm, dttm2);
+    }    
 }

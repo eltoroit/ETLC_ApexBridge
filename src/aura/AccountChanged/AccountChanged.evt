@@ -1,3 +1,0 @@
-<aura:event type="component" description="Fired when account changes">
-    <aura:attribute name="accountId" type="String" />
-</aura:event>

@@ -31,6 +31,7 @@ The documentation can be found here: [http://eltoro.it/Blog.app?page=ETLC_ApexBr
 | Version | Description |
 | --- | --- |
 | 1.0 | First code release |
+| 2.0 | Simplified the implementation of the library |
 
 ## License
 

@@ -1,9 +1,0 @@
-<aura:component >
-    <c:ETLC_ApexBridge aura:id="ApexBridge" />
-    
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <aura:registerEvent name="accountChanged" type="c:AccountChanged" />
-    
-    <ui:inputSelect label="Accounts:" aura:id="accountsList"
-                    change="{!c.accountSelected}" />
-</aura:component>

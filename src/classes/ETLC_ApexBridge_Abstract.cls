@@ -1,5 +1,15 @@
 public abstract class ETLC_ApexBridge_Abstract {
-    public abstract void process(ETLC_ApexBridge_Data data);
+    public abstract Object handleRequest(ETLC_ApexBridge_Request request);
+    
+    public void process(ETLC_ApexBridge_Request request) {
+        try {
+            Object output = handleRequest(request);
+            request.output = (output == null ? '""' : ETLC_ApexBridge_Request.encodeData(output));
+        } catch (Exception ex) {
+            String err = 'Unexpected method received (' + request.method + ')';
+            throw new ETLC_Exception(err);  
+        }
+    }
     
     // JSON Date / DateTime
     // In Javascript this instruction (new Date(aDate)).toJSON();
