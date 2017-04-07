@@ -4,7 +4,7 @@
 
 **Design pattern for communication between Lightning Components and Apex.**
 
-This repository contains the library that implements the ApexBridge design pattern.
+This repository contains the library that implements the ApexBridge design pattern, a simpler way to build Lightning Components that interact with Apex server-side controllers.
 
 
 ## Motivation
@@ -19,7 +19,7 @@ Lightning Components is a pretty cool technology that allows you to write SPA ar
 
 #### How Does It Work?
 
-To understand how the ApexBridge design pattern works, and how to implement the ETLC_ApexBridge library in your projects, please [./ETLC_ApexBridge_UnderstandingTheDesignPattern.pps](watch this presentation). For further details please check the [./ETLC_ApexBridge_DeveloperGuide.pdf](developer guide).
+To understand how the ApexBridge design pattern works, and how to implement the ETLC_ApexBridge library in your projects, please [watch this presentation](./ETLC_ApexBridge_UnderstandingTheDesignPattern.pps). For further details please check the [developer guide](./ETLC_ApexBridge_DeveloperGuide.pdf).
 
 There are also some companion sample files in [https://github.com/eltoroit/ETLC_SecureDB_Samples](this repository).
 
