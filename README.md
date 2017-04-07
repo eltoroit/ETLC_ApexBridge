@@ -21,15 +21,7 @@ Lightning Components is a pretty cool technology that allows you to write SPA ar
 
 To understand how the ApexBridge design pattern works, and how to implement the ETLC_ApexBridge library in your projects, please [watch this presentation](./ETLC_ApexBridge_UnderstandingTheDesignPattern.pps). For further details please check the [developer guide](./ETLC_ApexBridge_DeveloperGuide.pdf).
 
-There are also some companion sample files in [https://github.com/eltoroit/ETLC_SecureDB_Samples](this repository).
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+There are also some companion sample files in [this repositoty](https://github.com/eltoroit/ETLC_ApexBridge_Samples].
 
 ## History
 
