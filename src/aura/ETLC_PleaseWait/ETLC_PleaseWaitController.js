@@ -6,14 +6,18 @@
         helper.calculateTimings(component, true);
         component.set("v.showFullMessage", !$A.get("$Browser.isPhone"));            
     },
-    pleaseWaitEvent : function(component, event, helper) {
-        var params = event.getParams();
-        if (params.isShow === true) {
-            helper.showMessage(component, event, helper);            
-        } else if (params.isShow === false) {
-            helper.hideMessage(component, event, helper);
+    showMessage : function(component, event, helper) {
+        var params = event.getParams().arguments;
+        if (params) {
+            if (params.isShow === true) {
+                helper.showMessage(component, helper);            
+            } else if (params.isShow === false) {
+                helper.hideMessage(component, helper);
+            } else {
+                throw new Exception("Not sure what you are asking for");
+            }
         } else {
-            throw new Exception("???");
-        }
+            throw new Error("No arguments passed!");
+        }        
     }
 })

@@ -1,4 +1,5 @@
 <aura:component >
+	<!-- Private Attributes -->
     <aura:attribute access="private" name="counter" type="Integer" default="0" />
     <aura:attribute access="private" name="maxSeconds" type="integer" default="5" />
     <aura:attribute access="private" name="usedSeconds" type="Double" />
@@ -6,14 +7,17 @@
     <aura:attribute access="private" name="isMessageShown" type="Boolean" default="false" />
     <aura:attribute access="private" name="messages" type="List" />
     <aura:attribute access="private" name="timer" type="Integer" />
-    <aura:attribute access="private" name="message" type="String" 
-                    default="Please wait while we load the information for your request..." />
+    <aura:attribute access="private" name="message" type="String" default="Please wait while we load the information for your request..." />
     
+    <!-- Public Attributes -->
     <aura:attribute name="showFullMessage" type="Boolean" default="true" />
     <aura:attribute name="useDefaultMessage" type="Boolean" default="true" />
+    <aura:attribute name="customMessage" type="String" />
     
-    <aura:handler event="c:ETLC_PleaseWaitEvent" action="{!c.pleaseWaitEvent}" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:method access="public" name="showMessage" action="{!c.showMessage}">
+        <aura:attribute name="isShow" type="Boolean" />
+    </aura:method>
     
     <aura:if isTrue="{!v.isMessageShown}">
         <div aura:id="msgWindow" class="slds-hide">

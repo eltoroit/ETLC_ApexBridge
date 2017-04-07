@@ -1,19 +1,16 @@
 ({
-    showMessage : function(component, event, helper) {
+    showMessage : function(component, helper) {
         var counter = component.get("v.counter")+1;
         component.set("v.counter", counter);
         if (counter >= 1) {
-            var isPhone = $A.get("$Browser.isPhone");
-            var params = event.getParams();
-            var isFull = true;
-            if (isPhone) isFull = false;
-            if (params.type === "Toast") isFull = false;
+            var isFull = component.get("v.showFullMessage");
+            if ($A.get("$Browser.isPhone")) isFull = false;
             
             helper.calculateTimings(component, true);
             component.set("v.isMessageShown", true);
             component.set("v.showFullMessage", isFull);
-            if (params.message) {
-                component.set("v.message", params.message);
+            if (!component.get("v.useDefaultMessage")) {
+                component.set("v.message", component.get("v.customMessage"));
                 component.set("v.usedSeconds", component.get("v.maxSeconds")*2);
             }
             
@@ -29,7 +26,7 @@
             }
         }
     },
-    hideMessage : function(component, event, helper) {
+    hideMessage : function(component, helper) {
         // window.clearTimeout(component.get("v.timer"));
         var counter = component.get("v.counter")-1;
         component.set("v.counter", counter);

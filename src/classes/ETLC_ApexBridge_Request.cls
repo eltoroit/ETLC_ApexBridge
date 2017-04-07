@@ -64,8 +64,23 @@ public class ETLC_ApexBridge_Request {
         DateTime dttm = (DateTime) JSON.deserialize(tmp, DateTime.class);
         return dttm;
     }
-    public String toJSON() {
-        return JSON.serialize(this);
+    
+    public String dateToJSON(Date dt) {
+        DateTime dttm = DateTime.newInstance(dt.year(), dt.month(), dt.day());
+        return dateTimeToJSON(dttm);
+    }
+    
+    public String dateTimeToJSON(DateTime dttm) {
+        return dttm.formatGMT('yyyy-MM-dd') + 'T' + dttm.formatGMT('HH:mm:ss.SSS') + 'Z';
+    }
+    
+    // Methods used internally
+    public static String encodeData(Object value) {
+    	if (value == null) return '';
+        return JSON.serialize(value);
+    }
+    public static Object decodeData(String value, Type t) {
+        return JSON.deserializeStrict(value, t);
     }
     public static ETLC_ApexBridge_Request fromJSON(String strJson) {
         // System.debug('***' + strJson);
@@ -73,11 +88,7 @@ public class ETLC_ApexBridge_Request {
         // System.debug('***' + data);
         return data;
     }
-    public static String encodeData(Object value) {
-    	if (value == null) return '';
-        return JSON.serialize(value);
-    }
-    public static Object decodeData(String value, Type t) {
-        return JSON.deserializeStrict(value, t);
+    public String toJSON() {
+        return JSON.serialize(this);
     }
 }

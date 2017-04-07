@@ -16,7 +16,7 @@ public class ETLC_ApexBridge_Request_Test {
         req1.output = req1.input;
         req1.debug = true;
         req1.records = new List<Account>();
-        String jsonRequest = req1.toJson();
+        String jsonRequest = req1.toJSON();
         ETLC_ApexBridge_Request req2 = ETLC_ApexBridge_Request.fromJSON(jsonRequest);
         System.debug(req2);
         system.assertEquals(data, ETLC_ApexBridge_Request.decodeData(req2.output, Map<String, String>.class));
@@ -24,6 +24,9 @@ public class ETLC_ApexBridge_Request_Test {
         System.assertEquals(Datetime.newInstanceGmt(dttm.dateGmt(), dttm.timeGmt()),
                             req1.getInputDateTime('dttm'));
         System.assertEquals(dttm.date(), req1.getInputDate('dt'));
+// EXP / ACT
+        System.assertEquals(String.valueOf(req1.getInputValue('dt')), '"' + req1.dateToJSON(dttm.date()).left(10) + '"');        
+        System.assertEquals(String.valueOf(req1.getInputValue('dttm')), '"' + req1.dateTimeToJSON(dttm) + '"');        
     }
     
     @isTest

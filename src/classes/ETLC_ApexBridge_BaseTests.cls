@@ -1,4 +1,5 @@
-public virtual class ETLC_ApexBridge_BaseTests {
+@isTest
+public class ETLC_ApexBridge_BaseTests {
     public void invalidMethodTest(String controller) {
         ETLC_ApexBridge_Request requestOut = testHelper(controller, 'invalidMethod');
     }
@@ -22,12 +23,12 @@ public virtual class ETLC_ApexBridge_BaseTests {
         requestIn.records = records;
         return testHelper(requestIn);
     }
-    
-    public static ETLC_ApexBridge_Request testHelper(ETLC_ApexBridge_Request requestIn) {
+
+    public ETLC_ApexBridge_Request testHelper(ETLC_ApexBridge_Request requestIn) {
         Test.startTest();
         ETLC_ApexBridge_Request requestOut;
         requestOut = ETLC_ApexBridge_Request.fromJSON(
-            ETLC_ApexBridge_Controller.execute(requestIn.toJson())
+            ETLC_ApexBridge_Controller.execute(requestIn.toJSON())
         );
         Test.stopTest();
         return requestOut;

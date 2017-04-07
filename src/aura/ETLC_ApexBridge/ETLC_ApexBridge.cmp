@@ -1,14 +1,16 @@
 <aura:component controller="ETLC_ApexBridge_Controller" >
-    <aura:attribute access="public" name="debugClient" type="Boolean" default="true" />
-    <aura:attribute access="public" name="debugServer" type="Boolean" default="true" />
-    <aura:attribute access="public" name="forceRefresh" type="Boolean" default="false" />
-
+    <aura:dependency resource="markup://c:ETLC_PleaseWait" />
+    
+    <aura:attribute access="public" name="debugClient" type="Boolean" default="false" />
+    <aura:attribute access="public" name="debugServer" type="Boolean" default="false" />
+    <aura:attribute access="public" name="forceRefresh" type="Boolean" default="true" />
+    <aura:attribute access="private" name="cmpPleaseWait" type="Aura.Component" />
+    
     <aura:registerEvent name="PleaseWaitEvent" type="c:ETLC_PleaseWaitEvent" />
+    <div aura:id="pleaseWaitDiv" />
     
     <aura:method access="public" name="callApex" action="{!c.callApex}" />
     <aura:method access="public" name="makeRecords" action="{!c.makeRecords}">
-        <aura:attribute name="type" type="String"/>
-        <aura:attribute name="record" type="Object"/>
-        <aura:attribute name="records" type="List"/>
+        <aura:attribute name="data" type="Object" />
     </aura:method>
 </aura:component>

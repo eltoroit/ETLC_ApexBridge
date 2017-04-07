@@ -1,12 +1,14 @@
 @isTest
 public class ETLC_ApexBridge_Controller_Test {
+    static ETLC_ApexBridge_BaseTests base = new ETLC_ApexBridge_BaseTests();
+    
     @isTest
     public static void testValidData() {
         ETLC_ApexBridge_Request requestIn = new ETLC_ApexBridge_Request();
         requestIn.controller = 'ETLC_ApexBridge_TestHelper';
         requestIn.method = 'simpleCopy';
         requestIn.input = 'This is a test';
-        ETLC_ApexBridge_Request requestOut = testHelper(requestIn);
+        ETLC_ApexBridge_Request requestOut = base.testHelper(requestIn);
 
         // Basic asserts
         System.assertEquals(requestIn.input, requestOut.input);
@@ -21,7 +23,7 @@ public class ETLC_ApexBridge_Controller_Test {
     public static void testInvalid01() {
         ETLC_ApexBridge_Request req1 = new ETLC_ApexBridge_Request();
         req1.controller = null;
-        testHelper(req1);
+        base.testHelper(req1);
     }
 
     @isTest
@@ -29,7 +31,7 @@ public class ETLC_ApexBridge_Controller_Test {
         ETLC_ApexBridge_Request req1 = new ETLC_ApexBridge_Request();
         req1.controller = 'InvalidClass';
         req1.method = null;
-        testHelper(req1);
+        base.testHelper(req1);
     }
     
     @isTest
@@ -39,7 +41,7 @@ public class ETLC_ApexBridge_Controller_Test {
         req1.method = 'InvalidMethod';
         req1.doesCallout = true;
         try {
-            testHelper(req1);
+            base.testHelper(req1);
         } catch (Exception ex) {
             System.debug(ex);
         }
@@ -50,16 +52,6 @@ public class ETLC_ApexBridge_Controller_Test {
         ETLC_ApexBridge_Request req1 = new ETLC_ApexBridge_Request();
         req1.controller = 'ETLC_ApexBridge_TestHelper';
         req1.method = 'InvalidMethod';
-        testHelper(req1);
-    }
-    
-    private static ETLC_ApexBridge_Request testHelper(ETLC_ApexBridge_Request req1) {
-        Test.startTest();
-        ETLC_ApexBridge_Request req2;
-        req2 = ETLC_ApexBridge_Request.fromJSON(
-            ETLC_ApexBridge_Controller.execute(req1.toJson())
-        );
-        Test.stopTest();
-        return req2;
+        base.testHelper(req1);
     }
 }

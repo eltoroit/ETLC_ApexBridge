@@ -78,7 +78,7 @@ public with sharing class ETLC_SecuredDB {
     }
     
     // Provide a record (list of records) and perform the operation desired.
-    // For updates, you must pass a list of records
+    // For upserts, you must pass a list of records
     public static void performDML(Operation op, sObject dbRecord) {
         if (op == Operation.upserting) {
             throw new ETLC_Exception('When upserting records, you must pass a list of records');
@@ -121,14 +121,17 @@ public with sharing class ETLC_SecuredDB {
     }
     
     // Throws System.NoAccessException if there are Security failures.
+    public static void plainValidator(Operation op, String fieldsJSON) {
+        Map<String, Set<String>> mapFieldNames;
+        mapFieldNames = (Map<String, Set<String>>) JSON.deserialize(fieldsJSON, Map<String, Set<String>>.class);
+        plainValidator(op, mapFieldNames);
+    }
     public static void plainValidator(Operation op, String sObjName, Set<String> fieldNames) {
         Map<String, Set<String>> mapFieldNames = new Map<String, Set<String>>();
         mapFieldNames.put(sObjName, fieldNames);
-        validate(op, mapFieldNames);
+        plainValidator(op, mapFieldNames);
     }
-    public static void plainValidator(Operation op, String fields) {
-        Map<String, Set<String>> mapFieldNames;
-        mapFieldNames = (Map<String, Set<String>>) JSON.deserialize(fields, Map<String, Set<String>>.class);
+    public static void plainValidator(Operation op, Map<String, Set<String>> mapFieldNames) {
         validate(op, mapFieldNames);
     }
     
@@ -141,15 +144,15 @@ public with sharing class ETLC_SecuredDB {
             if (showDebugMessages) {
                 System.debug('Checking: ' + securityMessage);
             }
-
+            
             // Does Object exist?
             Schema.DescribeSObjectResult drSObj;
             try {
-				drSObj = mapObjects.get(sObjectName).getDescribe();
-        	} catch (Exception ex){
-            	throw new ETLC_Exception('Invalid Object name [' + sObjectName + ']');
-        	}
-
+                drSObj = mapObjects.get(sObjectName).getDescribe();
+            } catch (Exception ex){
+                throw new ETLC_Exception('Invalid Object name [' + sObjectName + ']');
+            }
+            
             if (op == Operation.Inserting) {
                 if (!drSObj.isCreateable()) throwSecurityException(securityMessage);
             } else if (op == Operation.Querying) {
@@ -300,9 +303,9 @@ public with sharing class ETLC_SecuredDB {
     } 
     
     // Security exception thrower
-        private static void throwSecurityException(String message) {
+    private static void throwSecurityException(String message) {
         // Security messages must be very vague!
-    	if (!Test.isRunningTest()) throw new System.NoAccessException();
+        if (!Test.isRunningTest()) throw new System.NoAccessException();
         if (Test.isRunningTest())  throw new ETLC_Exception(message);
     }
 }
