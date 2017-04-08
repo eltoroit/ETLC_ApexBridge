@@ -11,17 +11,21 @@ This repository contains the library that implements the ApexBridge design patte
 
 Lightning Components is a pretty cool technology that allows you to write SPA architecture applications where most logic happens on the client, but you still need to talk to the back end for other operations like reading and writing data to your custom and standard objects, sending emails, talking to external web servers, etc. Although communicating with a server is important task, there is not a clean reusable way of handling this communication.
 
+Why did I build it? read this [blog article](http://eltoro.it/ETLC_ApexBridge) to understand what motivated me to create this?
+
+## How Does It Work?
+
+To learn how the ApexBridge design pattern works, and how to implement the ETLC_ApexBridge library in your projects, please [watch this presentation](./ETLC_ApexBridge_UnderstandingTheDesignPattern.pps). For further details please check the [developer guide](./ETLC_ApexBridge_DeveloperGuide.pdf).
+
+There are also some companion sample files in [this repositoty](https://github.com/eltoroit/ETLC_ApexBridge_Samples).
+
 ## Installation
 
 <a href="https://githubsfdeploy.herokuapp.com?owner=ElToroIT&repo=ETLC_ApexBridge">
   <img alt="Deploy to Salesforce" src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
-#### How Does It Work?
-
-To understand how the ApexBridge design pattern works, and how to implement the ETLC_ApexBridge library in your projects, please [watch this presentation](./ETLC_ApexBridge_UnderstandingTheDesignPattern.pps). For further details please check the [developer guide](./ETLC_ApexBridge_DeveloperGuide.pdf).
-
-There are also some companion sample files in [this repositoty](https://github.com/eltoroit/ETLC_ApexBridge_Samples).
+You may also want to install the companion sample files [found here](https://github.com/eltoroit/ETLC_ApexBridge_Samples).
 
 ## History
 
