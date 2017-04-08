@@ -338,7 +338,7 @@ private class ETLC_SecuredDB_Test {
         }
     }
     
-/* */
+	/*
 	// NOTE: Failing security in a test is complex, it requires to set the right user
 	// with the right permissions. Please fix this code to reflect that.
     @isTest
@@ -384,7 +384,7 @@ private class ETLC_SecuredDB_Test {
             System.debug(ex);
         }
     }
-/* */
+	*/
     
     // Create records
     private static Account newAccount(Integer counter) {
