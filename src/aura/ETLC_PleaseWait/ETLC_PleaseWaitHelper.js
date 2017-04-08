@@ -3,6 +3,7 @@
         var counter = component.get("v.counter")+1;
         component.set("v.counter", counter);
         if (counter >= 1) {
+            var toastEvent = $A.get("e.force:showToast");
             var isFull = component.get("v.showFullMessage");
             if ($A.get("$Browser.isPhone")) isFull = false;
             
@@ -14,9 +15,17 @@
                 component.set("v.usedSeconds", component.get("v.maxSeconds")*2);
             }
             
-            var modalWindow = component.find("msgWindow");
-            $A.util.addClass(modalWindow, "slds-show");
-            $A.util.removeClass(modalWindow, "slds-hide");
+            if (isFull || !toastEvent) {
+                var modalWindow = component.find("msgWindow");
+                $A.util.addClass(modalWindow, "slds-show");
+                $A.util.removeClass(modalWindow, "slds-hide");
+            } else {
+                toastEvent.setParams({
+                    "title": "Please Wait",
+                    "message": component.get("v.message")
+                });
+                toastEvent.fire();
+            }
             
             // If the modal window was scheduled to be hidden,
             // stop the timer.
