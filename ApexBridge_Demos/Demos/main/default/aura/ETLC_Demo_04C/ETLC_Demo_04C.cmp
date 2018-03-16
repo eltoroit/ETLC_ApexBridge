@@ -1,0 +1,25 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global">
+    <c:ETLC_PleaseWait />
+    <c:ETLC_ApexBridge aura:id="ApexBridge" />
+    
+    <aura:attribute name="messageType" type="String" default="Toast" />
+    <aura:attribute name="message" type="String" />
+    
+    <aura:handler event="c:ETLC_PleaseWaitEvent" action="{!c.pleaseWaitEvent}" />
+    
+    <Lightning:card class="slds-p-around_medium">
+        <lightning:select name="MessageTypeSelector" label="Type Of Message" value="{!v.messageType}">
+            <option>Toast</option>
+            <option>Full</option>
+            <option>Event</option>
+            <option>None</option>
+        </lightning:select>
+        <div class="slds-p-top_medium">
+            <lightning:input name="Message" label="Message" value="{!v.message}" />
+        </div>
+        <div class="slds-p-top_medium slds-text-align_center">
+            <lightning:button label="Show Message" onclick="{!c.showMessage}" variant="brand" />
+        </div>        
+    </Lightning:card>
+</aura:component>

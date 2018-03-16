@@ -1,0 +1,32 @@
+<aura:component >
+    <aura:attribute access="public" name="msgTitle" type="String" />
+    <aura:attribute access="public" name="msgBody" type="Aura.component[]" required="true" />
+    <aura:attribute access="public" name="msgButtons" type="Aura.component[]" />
+    
+    <div>
+        <div role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning:card >
+                    <aura:set attribute="title">
+                        <div class="slds-modal__header slds-theme--info slds-theme--alert-texture">
+                            <h2 class="slds-text-heading--small">
+                                {!v.msgTitle}
+                            </h2>
+                        </div>
+                    </aura:set>
+                    <p class="slds-p-horizontal--small slds-align--absolute-center slds-p-around--large" style="background-color: white;">
+                        {!v.msgBody}
+                    </p>
+                    <aura:set attribute="footer">
+                        <section class="slds-clearfix">
+                            <div class="slds-float--right">
+                                {!v.msgButtons}
+                            </div>
+                        </section>
+                    </aura:set>
+                </lightning:card>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,9 @@
+<aura:component abstract="true">
+    <aura:attribute access="public" name="isVisible" type="boolean" default="false" />
+
+    <aura:method name="show" action="{!c.showDialog}" />
+    
+    <aura:if isTrue="{!v.isVisible}">
+        {!v.body}
+    </aura:if>
+</aura:component>

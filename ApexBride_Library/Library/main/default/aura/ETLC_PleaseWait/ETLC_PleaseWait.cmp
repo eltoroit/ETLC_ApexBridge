@@ -1,0 +1,51 @@
+<aura:component >
+    <aura:attribute access="private" name="counter" type="Integer" default="0" />
+    <aura:attribute access="private" name="maxSeconds" type="integer" default="5" />
+    <aura:attribute access="private" name="usedSeconds" type="Double" />
+    <aura:attribute access="private" name="usedStarted" type="DateTime" />
+    <aura:attribute access="private" name="isMessageShown" type="Boolean" default="false" />
+    <aura:attribute access="private" name="messages" type="List" />
+    <aura:attribute access="private" name="timer" type="Integer" />
+    <aura:attribute access="private" name="message" type="String" 
+                    default="Please wait while we load the information for your request..." />
+    
+    <aura:attribute name="showFullMessage" type="Boolean" default="true" />
+    <aura:attribute name="useDefaultMessage" type="Boolean" default="true" />
+    
+    <aura:handler event="c:ETLC_PleaseWaitEvent" action="{!c.pleaseWaitEvent}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:if isTrue="{!v.isMessageShown}">
+        <div aura:id="msgWindow" class="slds-hide">
+            <aura:if isTrue="{!v.showFullMessage == true}" >
+                <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <lightning:card >
+                            <aura:set attribute="title">
+                                <div class="slds-modal__header slds-theme_info slds-theme_alert-texture">
+                                    <h2 class="slds-text-heading_small">
+                                        Please Wait...
+                                    </h2>
+                                </div>
+                            </aura:set>
+                            <p class="slds-p-horizontal_small slds-align_absolute-center slds-p-around_large"
+                               style="background-color: white;">
+                                <table width="100%" border="0">
+                                    <tr>
+                                        <td style="padding: 10px;">
+                                            <!-- img src="{!$Resource.waitIcon}" style="max-width: none;"/ -->
+                                        </td>
+                                        <td style="width:100%;text-align:center">                              
+                                            <div class="slds-text-heading_medium">{!v.message}</div>                                   
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p>
+                        </lightning:card>
+                    </div>
+                </div>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

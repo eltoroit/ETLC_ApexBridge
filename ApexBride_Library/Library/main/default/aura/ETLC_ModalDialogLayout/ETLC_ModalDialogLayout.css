@@ -1,0 +1,7 @@
+.THIS .slds-modal {
+    z-index: 800;
+}
+
+.THIS .slds-backdrop {
+    z-index: 799;
+}

@@ -1,0 +1,21 @@
+{
+  "packageDirectories": [
+    {
+      "path": "Demos",
+      "id": "0Ho6A000000GmaiSAC",
+      "versionName": "Demos - Spring '18",
+      "versionDescription": "ApexBridge Demos",
+      "versionNumber": "1.2.0.NEXT",
+      "dependencies": [
+        {
+          "packageId": "0Ho6A000000GmadSAC",
+          "versionNumber": "1.2.0.LATEST" 
+        }
+      ],
+      "default": true
+    }
+  ],
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "42.0"
+}

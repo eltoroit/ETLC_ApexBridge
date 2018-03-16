@@ -1,0 +1,15 @@
+{
+  "packageDirectories": [
+    {
+      "path": "Library",
+      "id": "0Ho6A000000GmadSAC",
+      "versionName": "Library - Spring '18",
+      "versionDescription": "ApexBridge Library",
+      "versionNumber": "1.2.0.NEXT",
+      "default": true
+    }
+  ],
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "42.0"
+}
