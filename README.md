@@ -29,8 +29,8 @@ Using Salesforce DX CLI you can install the packages like this:
 
 | What | SFDX CLI Command | URL |
 | --- | --- | --- | 
-| Library | sfdx force:package:install -i 04t6A000002D2ElQAK | https://test.salesforce.com/packagingSetupUI/ipLanding.app?apvId=04t6A000002D2ElQAK |
-| Demos | sfdx force:package:install -i 04t6A000002D2EqQAK | https://test.salesforce.com/packagingSetupUI/ipLanding.app?apvId=04t6A000002D2EqQAK |
+| Library | ```sfdx force:package:install -i 04t6A000002D2ElQAK``` | https://test.salesforce.com/packagingSetupUI/ipLanding.app?apvId=04t6A000002D2ElQAK |
+| Demos | ```sfdx force:package:install -i 04t6A000002D2EqQAK``` | https://test.salesforce.com/packagingSetupUI/ipLanding.app?apvId=04t6A000002D2EqQAK |
 
 ## History
 
