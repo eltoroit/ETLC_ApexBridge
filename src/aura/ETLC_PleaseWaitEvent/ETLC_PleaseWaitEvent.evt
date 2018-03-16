@@ -1,6 +1,0 @@
-<aura:event type="application" description="Show/Hide message">
-    <!-- True to show message, false to hide it -->
-	<aura:attribute name="isShow" type="boolean" required="true" />
-    <!-- Send a message if you do want the default messages -->
-    <aura:attribute name="message" type="String" />
-</aura:event>
