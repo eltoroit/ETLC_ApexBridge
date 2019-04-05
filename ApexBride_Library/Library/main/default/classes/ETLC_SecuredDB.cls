@@ -41,7 +41,7 @@ https://github.com/eltoroit/ETLC_SecureDB/issues/1
 - I am not sure which method is more efficient, so I will make both and do some performance tests and
 comparing results by setting the flag  
 */ 
-public with sharing class ETLC_SecuredDB {
+public inherited sharing class ETLC_SecuredDB {
     // Performance testing
     public static Boolean findFieldsUsingJSON = false;
     
